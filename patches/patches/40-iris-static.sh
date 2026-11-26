@@ -13,8 +13,8 @@ if ! grep -q 'gzip on;' "$CONF"; then
   sed -i 's|^    gzip off;|    gzip on;\n    gzip_comp_level 5;\n    gzip_min_length 1024;\n    gzip_vary on;\n    gzip_proxied any;\n    gzip_types text/plain text/css application/json application/javascript text/javascript application/xml image/svg+xml;|' "$CONF"
 fi
 
-# 2) http2 on the TLS listener
-sed -i 's/^\( *listen *443 ssl\);/\1 http2;/' "$CONF"
+# 2) http2 on the TLS listener (deprecated form, but works on every nginx build)
+sed -i -E 's/^([[:space:]]*listen[[:space:]]+[0-9]+[[:space:]]+ssl);/\1 http2;/' "$CONF"
 
 # 3) immutable caching for SvelteKit assets, proxied from the live frontend build
 if ! grep -q 'iris_immutable_assets' "$CONF"; then
