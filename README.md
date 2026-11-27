@@ -33,3 +33,14 @@
 - Контейнеры: iris_nginx, iris_app, iris_worker, iris_db, iris_rabbitmq, iris_frontend.
 - Домен `neko.vbrr.online` пока указывает на мёртвый IRIS_HOST_OLD — после смены A-записи на IRIS_HOST поставить Let's Encrypt сертификат.
 - БД чистая: кейсы/шаблоны задач/настройки со старого хоста не сохранились (дампа не было).
+
+## Обновление до новой версии (без потери данных)
+
+Полный порядок — `UPGRADE.md`. Кратко:
+
+```bash
+sudo ./scripts/upgrade-stack.sh --backup-only        # бэкап: .env, patches, серты, дамп БД, конфиг+state коннектора
+sudo ./scripts/upgrade-stack.sh v3.0.0-beta.23       # смена IRIS_VERSION, pull, up -d, патчи, smoke
+```
+
+Правила: никогда `down -v`, не пересоздавать `.env`, `config.json` коннектора не в git и апгрейдом не затрагивается.
