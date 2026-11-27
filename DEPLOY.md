@@ -95,6 +95,7 @@ curl -s http://127.0.0.1:8098/healthz
 
 - `docker compose up` без блока `auto_escalate` в конфиге — кейсы не создаются, только алерты.
 - IRIS beta.1: `POST /api/v2/alerts/escalate/<id>` падает 500, если в теле нет `iocs_import_list`/`assets_import_list` (исправлено в коннекторе, коммит `62c03e7`).
+- `auto_escalate` с `attack_template_id`/`anomaly_template_id` добавляет к имени кейса `title_prefix` шаблона (у шаблонов MDR он `[MDR]`) и навешивает их задачи. Для чистых KDP-кейсов шаблоны не привязывать: только `{"enabled": true}`.
 - Дашборд-схема beta.1 не принимает фильтр `is_null` — скрипт такие виджеты отбрасывает.
 - nginx-патч ищет `listen <port> ssl;` — при другом порте регулярка должна быть порт-независимой (уже так).
 - fail2ban (jail `sshd`) банит за неверные пароли — залить ключ, `fail2ban-client set sshd unbanip <ip>`.
